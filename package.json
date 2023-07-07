@@ -1,5 +1,5 @@
 {
-  "name": "starter-express-api",
+  "name": "trello-dsw-back-end",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,14 +9,14 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cyclic-software/starter-express-api.git"
+    "url": "git+https://github.com/trello-dsw/trello-back-end"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/cyclic-software/starter-express-api/issues"
+    "url": "https://github.com/trello-dsw/trello-back-end/issues"
   },
-  "homepage": "https://github.com/cyclic-software/starter-express-api#readme",
+  "homepage": "https://github.com/trello-dsw/trello-back-end#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "express": "^4.18.2",
