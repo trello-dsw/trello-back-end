@@ -5,6 +5,7 @@ import {
   handleForgot,
   handleLogin,
   handleNewUser,
+  handlePasswordChange,
   handleReset,
 } from './src/request_handlers.js';
 
@@ -26,6 +27,10 @@ app.post('/forgot', async function (req, res) {
 
 app.post('/reset', async function (req, res) {
   await handleReset(req, res);
+});
+
+app.post('/logged-reset', async function (req, res) {
+  await handlePasswordChange(req, res);
 });
 
 app.listen(3000);

@@ -64,14 +64,34 @@ export async function handleForgot(req, res) {
 
 export async function handleReset(req, res) {
   const { email, key, token } = req.query;
-  const validToken = jsonwebtoken.verify(token, JWT_PUBLIC_KEY);
+  const user = jsonwebtoken.verify(token, JWT_PUBLIC_KEY);
 
-  if (!email || !key || !validToken) {
+  if (!email || !key || !user) {
     sendResponse(res, { message: 'Pedido inválido' }, 400);
     return;
   }
 
   updateUserPassword(email, key);
+  sendResponse(res, { message: 'Senha atualizada.' });
+}
+
+export async function handlePasswordChange(req, res) {
+  const { oldPassword, newPassword, token } = req.body;
+
+  const tokenUser = jsonwebtoken.verify(token, JWT_PUBLIC_KEY);
+  if (!tokenUser) {
+    res.status(400).json({ message: 'Acesso não autorizado' });
+    return;
+  }
+
+  const dbUser = await getUserFromEmail(tokenUser.email);
+  if (!dbUser || !(await bcrypt.compare(oldPassword, dbUser.password))) {
+    sendResponse(res, { message: 'Credenciais inválidas.' }, 400);
+    return;
+  }
+
+  const encryptedPassword = await bcrypt.hash(newPassword, 10);
+  updateUserPassword(tokenUser.email, encryptedPassword);
   sendResponse(res, { message: 'Senha atualizada.' });
 }
 
