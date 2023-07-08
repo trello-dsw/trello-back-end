@@ -1,6 +1,10 @@
 import bcrypt from 'bcryptjs';
 import jsonwebtoken from 'jsonwebtoken';
-import { createUser, getUserFromEmail } from './database/index.js';
+import {
+  createUser,
+  getUserFromEmail,
+  updateUserPassword,
+} from './database/index.js';
 import { DBClient } from './database/client.js';
 import { sendResetMail } from './email.js';
 
@@ -8,12 +12,12 @@ const EMAIL_NOT_FOUND = 'Não existe um usuário registrado com este e-mail.';
 const JWT_PUBLIC_KEY = 'aiusa7s8sdjm,d0-klaj';
 
 export async function handleNewUser(req, res) {
-  const { email, password, user } = req.body;
+  const { email, password, username } = req.body;
 
   const encryptedPassword = await bcrypt.hash(password, 10);
 
   try {
-    await createUser(email, encryptedPassword, user);
+    await createUser(email, encryptedPassword, username);
   } catch (e) {
     sendResponse(res, { message: e.message }, 400);
     return;
@@ -43,7 +47,7 @@ export async function handleLogin(req, res) {
 }
 
 export async function handleForgot(req, res) {
-  const { email } = req.body;
+  const { email, key } = req.body;
 
   const user = await getUserFromEmail(email);
   if (!user) {
@@ -51,8 +55,24 @@ export async function handleForgot(req, res) {
     return;
   }
 
-  sendResetMail(email);
+  const encryptedPassword = await bcrypt.hash(key, 10);
+  const token = jsonwebtoken.sign(user, JWT_PUBLIC_KEY);
+
+  sendResetMail(email, encryptedPassword, token);
   sendResponse(res, { message: 'Email de recuperação enviado.' });
+}
+
+export async function handleReset(req, res) {
+  const { email, key, token } = req.query;
+  const validToken = jsonwebtoken.verify(token, JWT_PUBLIC_KEY);
+
+  if (!email || !key || !validToken) {
+    sendResponse(res, { message: 'Pedido inválido' }, 400);
+    return;
+  }
+
+  updateUserPassword(email, key);
+  sendResponse(res, { message: 'Senha atualizada.' });
 }
 
 function sendResponse(res, json, status) {
