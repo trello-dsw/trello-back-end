@@ -1,36 +1,36 @@
 import bodyParser from 'body-parser';
 import express from 'express';
 
+import { newUser } from './src/handlers/user.js';
+import { login } from './src/handlers/login.js';
 import {
-  handleForgot,
-  handleLogin,
-  handleNewUser,
-  handlePasswordChange,
-  handleReset,
-} from './src/request_handlers.js';
+  forgotPassword,
+  loggedPasswordReset,
+  resetPassword,
+} from './src/handlers/password.js';
 
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.post('/', async function (req, res) {
-  await handleNewUser(req, res);
+  await newUser(req, res);
 });
 
 app.post('/login', async function (req, res) {
-  await handleLogin(req, res);
+  await login(req, res);
 });
 
 app.post('/forgot', async function (req, res) {
-  await handleForgot(req, res);
+  await forgotPassword(req, res);
 });
 
 app.post('/reset', async function (req, res) {
-  await handleReset(req, res);
+  await resetPassword(req, res);
 });
 
 app.post('/logged-reset', async function (req, res) {
-  await handlePasswordChange(req, res);
+  await loggedPasswordReset(req, res);
 });
 
 app.listen(3000);

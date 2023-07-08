@@ -3,7 +3,7 @@ import sgMail from '@sendgrid/mail';
 
 export function sendResetMail(email, password, token) {
   const url = `${process.env.HOSTNAME}/reset?token=${token}&email=${email}&key=${password}`;
-  console.log(url);
+
   const text = `Se você solicitou uma recuperação de senha, clique <a href='"${url}"'>aqui</a>.`;
 
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
