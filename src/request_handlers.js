@@ -26,14 +26,12 @@ export async function handleLogin(req, res) {
   const { email, password } = req.body;
 
   const user = await getUserFromEmail(email);
-
   if (!user) {
     sendResponse(res, { message: EMAIL_NOT_FOUND }, 400);
     return;
   }
 
   const correctPassword = await bcrypt.compare(password, user.password);
-
   if (!correctPassword) {
     sendResponse(res, { message: 'Senha inválida.' }, 400);
     return;
@@ -48,7 +46,6 @@ export async function handleForgot(req, res) {
   const { email } = req.body;
 
   const user = await getUserFromEmail(email);
-
   if (!user) {
     sendResponse(res, { message: EMAIL_NOT_FOUND }, 400);
     return;
