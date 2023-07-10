@@ -14,7 +14,7 @@ cardRouter.post('/', async function (req, res) {
   const { cardId, boardId, options } = req.body;
 
   try {
-    createOrUpdateCard(cardId, boardId, options);
+    await createOrUpdateCard(cardId, boardId, options);
     sendResponse(res, { message: 'Cartão criado ou atualizado.' });
   } catch (e) {
     sendResponse(res, { message: e.message }, 400);
@@ -26,7 +26,12 @@ cardRouter.get('/:cardId', async function (req, res) {
 });
 
 cardRouter.delete('/:cardId', async function (req, res) {
-  sendResponse(res, await deleteCard(req.params.cardId));
+  try {
+    await deleteCard(req.params.cardId);
+    sendResponse(res, { message: 'Cartão deletado.' });
+  } catch (e) {
+    sendResponse(res, { message: e.message }, 400);
+  }
 });
 
 cardRouter.get('/fromlist/:list', async function (req, res) {
@@ -36,4 +41,10 @@ cardRouter.get('/fromlist/:list', async function (req, res) {
 cardRouter.post('/move', async function (req, res) {
   const { cardId, listId } = req.body;
   sendResponse(res, await moveCard(cardId, listId));
+  try {
+    await moveCard(cardId, listId);
+    sendResponse(res, { message: 'Cartão movido' });
+  } catch (e) {
+    sendResponse(res, { message: e.message }, 400);
+  }
 });
