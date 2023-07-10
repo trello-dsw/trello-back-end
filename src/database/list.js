@@ -15,17 +15,17 @@ export async function createOrUpdateList(listId, boardId, options) {
 export async function deleteList(listId) {
   const collection = await DBClient.getListCollection();
 
-  await collection.deleteOne(listId);
+  await collection.deleteOne({ listId });
 }
 
 export async function getList(listId) {
   const collection = await DBClient.getListCollection();
 
-  return await collection.findOne(listId);
+  return await collection.findOne({ listId });
 }
 
 export async function getBoardLists(boardId) {
   const collection = await DBClient.getListCollection();
 
-  return await collection.find(boardId).toArray();
+  return await collection.find({ boardId }).toArray();
 }

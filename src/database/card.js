@@ -15,19 +15,19 @@ export async function createOrUpdateCard(cardId, listId, options) {
 export async function deleteCard(cardId) {
   const collection = await DBClient.getCardCollection();
 
-  await collection.deleteOne(cardId);
+  await collection.deleteOne({ cardId });
 }
 
 export async function getCard(cardId) {
   const collection = await DBClient.getCardCollection();
 
-  return await collection.findOne(cardId);
+  return await collection.findOne({ cardId });
 }
 
 export async function getListCards(listId) {
   const collection = await DBClient.getCardCollection();
 
-  return await collection.find(listId).toArray();
+  return await collection.find({ listId }).toArray();
 }
 
 export async function moveCard(cardId, newList) {
