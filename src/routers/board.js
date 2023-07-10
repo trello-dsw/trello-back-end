@@ -7,7 +7,6 @@ import {
   getUserBoards,
 } from '../database/board.js';
 import { sendResponse } from '../handlers/utils.js';
-import { getUserFavorites } from '../database/favorites.js';
 
 export const boardRouter = express.Router();
 
