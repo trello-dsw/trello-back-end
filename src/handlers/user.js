@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import { createUser } from '../database/index.js';
+import { createUser } from '../database/user.js';
 import { sendResponse } from './utils.js';
 
 export async function newUser(req, res) {

@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jsonwebtoken from 'jsonwebtoken';
 
-import { getUserFromEmail } from '../database/index.js';
+import { getUserFromEmail } from '../database/user.js';
 import { EMAIL_NOT_FOUND, JWT_PUBLIC_KEY, sendResponse } from './utils.js';
 
 export async function login(req, res) {
