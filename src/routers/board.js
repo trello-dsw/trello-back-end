@@ -4,7 +4,9 @@ import {
   createOrUpdateBoard,
   deleteBoard,
   getBoard,
+  getSharedBoards,
   getUserBoards,
+  shareBoard,
 } from '../database/board.js';
 import { sendResponse } from '../handlers/utils.js';
 
@@ -36,4 +38,19 @@ boardRouter.delete('/:boardId', async function (req, res) {
 
 boardRouter.get('/fromuser/:user', async function (req, res) {
   sendResponse(res, await getUserBoards(req.params.user));
+});
+
+boardRouter.post('/share', async function (req, res) {
+  const { boardId, email, accessType } = req.body;
+
+  try {
+    await shareBoard(boardId, email, accessType);
+    sendResponse(res, { message: 'Quadro compartilhado.' });
+  } catch (e) {
+    sendResponse(res, { message: e.message }, 400);
+  }
+});
+
+boardRouter.get('/share/:user', async function (req, res) {
+  sendResponse(res, await getSharedBoards(req.params.user));
 });
