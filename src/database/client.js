@@ -39,4 +39,9 @@ export class DBClient {
     const database = await DBClient.connectDB();
     return await database.collection('boards');
   }
+
+  static async getListCollection() {
+    const database = await DBClient.connectDB();
+    return await database.collection('lists');
+  }
 }
