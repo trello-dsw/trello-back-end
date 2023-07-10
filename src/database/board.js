@@ -30,12 +30,6 @@ export async function getUserBoards(email) {
   return await collection.findMany(email);
 }
 
-export async function setListOrder(boardId, listArray) {
-  const collection = await DBClient.getBoardCollection();
-
-  await collection.updateOne({ boardId }, { $set: { lists: listArray } });
-}
-
 export async function shareBoard(boardId, email, accessType) {
   const collection = await DBClient.getBoardCollection();
   const board = await collection.findOne({ boardId });
