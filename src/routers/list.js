@@ -6,14 +6,15 @@ import {
   getBoardLists,
   getList,
 } from '../database/list.js';
+import { sendResponse } from '../handlers/utils.js';
 
 export const listRouter = express.Router();
 
 listRouter.post('/', async function (req, res) {
-  const { listId, boardId, options } = req.body;
+  const { listId, boardId, title } = req.body;
 
   try {
-    await createOrUpdateList(listId, boardId, options);
+    await createOrUpdateList(listId, boardId, title);
     sendResponse(res, { message: 'Lista criada ou atualizada.' });
   } catch (e) {
     sendResponse(res, { message: e.message }, 400);

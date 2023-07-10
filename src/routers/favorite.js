@@ -5,6 +5,7 @@ import {
   getUserFavorites,
   removeFavorite,
 } from '../database/favorites.js';
+import { sendResponse } from '../handlers/utils.js';
 
 export const favoriteRouter = express.Router();
 

@@ -1,14 +1,18 @@
 import { DBClient } from './client.js';
 
-export async function createOrUpdateList(listId, boardId, options) {
+export async function createOrUpdateList(listId, boardId, title) {
   const collection = await DBClient.getListCollection();
 
   if (await collection.findOne({ listId })) {
-    await collection.updateOne({ listId }, { $set: { ...options } });
+    await collection.updateOne({ listId }, { $set: { title } });
     return;
   }
 
-  await collection.insertOne({ boardId, ...options });
+  await collection.insertOne({
+    listId,
+    boardId,
+    title,
+  });
   return;
 }
 

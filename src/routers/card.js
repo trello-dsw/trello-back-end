@@ -7,14 +7,15 @@ import {
   getListCards,
   moveCard,
 } from '../database/card.js';
+import { sendResponse } from '../handlers/utils.js';
 
 export const cardRouter = express.Router();
 
 cardRouter.post('/', async function (req, res) {
-  const { cardId, boardId, options } = req.body;
+  const { cardId, listId, options } = req.body;
 
   try {
-    await createOrUpdateCard(cardId, boardId, options);
+    await createOrUpdateCard(cardId, listId, options);
     sendResponse(res, { message: 'Cartão criado ou atualizado.' });
   } catch (e) {
     sendResponse(res, { message: e.message }, 400);
@@ -40,7 +41,6 @@ cardRouter.get('/fromlist/:list', async function (req, res) {
 
 cardRouter.post('/move', async function (req, res) {
   const { cardId, listId } = req.body;
-  sendResponse(res, await moveCard(cardId, listId));
   try {
     await moveCard(cardId, listId);
     sendResponse(res, { message: 'Cartão movido' });

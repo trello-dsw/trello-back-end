@@ -1,14 +1,24 @@
 import { DBClient } from './client.js';
 
 export async function createOrUpdateCard(cardId, listId, options) {
+  const { content, createdAt, modifiedAt } = JSON.parse(options);
   const collection = await DBClient.getCardCollection();
 
   if (await collection.findOne({ cardId })) {
-    await collection.updateOne({ cardId }, { $set: { ...options } });
+    await collection.updateOne(
+      { cardId },
+      { $set: { content, createdAt, modifiedAt } }
+    );
     return;
   }
 
-  await collection.insertOne({ listId, ...options });
+  await collection.insertOne({
+    cardId,
+    listId,
+    content,
+    createdAt,
+    modifiedAt,
+  });
   return;
 }
 
@@ -31,5 +41,7 @@ export async function getListCards(listId) {
 }
 
 export async function moveCard(cardId, newList) {
+  const collection = await DBClient.getCardCollection();
+
   await collection.updateOne({ cardId }, { $set: { listId: newList } });
 }
