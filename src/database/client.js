@@ -44,4 +44,9 @@ export class DBClient {
     const database = await DBClient.connectDB();
     return await database.collection('lists');
   }
+
+  static async getCardCollection() {
+    const database = await DBClient.connectDB();
+    return await database.collection('cards');
+  }
 }
