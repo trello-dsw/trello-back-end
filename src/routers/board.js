@@ -4,8 +4,8 @@ import {
   deleteBoard,
   getBoard,
   getUserBoards,
-} from '../database/board';
-import { sendResponse } from '../handlers/utils';
+} from '../database/board.js';
+import { sendResponse } from '../handlers/utils.js';
 
 export const boardRouter = express.Router();
 
