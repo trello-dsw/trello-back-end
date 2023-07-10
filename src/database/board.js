@@ -35,3 +35,18 @@ export async function setListOrder(boardId, listArray) {
 
   await collection.updateOne({ boardId }, { $set: { lists: listArray } });
 }
+
+export async function shareBoard(boardId, email, accessType) {
+  const collection = await DBClient.getBoardCollection();
+  const board = await collection.findOne({ boardId });
+  const shareOptions = { email, accessType };
+
+  const sharedTo = board.sharedTo;
+  if (!sharedTo) {
+    sharedTo = [shareOptions];
+  } else {
+    sharedTo.push(shareOptions);
+  }
+
+  collection.updateOne({ boardId }, { $set: { sharedTo } });
+}
