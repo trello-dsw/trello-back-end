@@ -27,7 +27,7 @@ export async function getCard(cardId) {
 export async function getListCards(listId) {
   const collection = await DBClient.getCardCollection();
 
-  return await collection.findMany(listId);
+  return await collection.find(listId).toArray();
 }
 
 export async function moveCard(cardId, newList) {

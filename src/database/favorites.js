@@ -17,7 +17,7 @@ export async function addFavorite(boardId, email) {
 export async function getUserFavorites(email) {
   const collection = await DBClient.getBoardCollection();
 
-  return await collection.findMany({ favorites: email });
+  return await collection.find({ favorites: email }).toArray();
 }
 
 export async function removeFavorite(boardId, email) {

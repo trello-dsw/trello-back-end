@@ -27,7 +27,7 @@ export async function getBoard(boardId) {
 export async function getUserBoards(email) {
   const collection = await DBClient.getBoardCollection();
 
-  return await collection.findMany(email);
+  return await collection.find(email).toArray();
 }
 
 export async function shareBoard(boardId, email, accessType) {
@@ -43,4 +43,25 @@ export async function shareBoard(boardId, email, accessType) {
   }
 
   collection.updateOne({ boardId }, { $set: { sharedTo } });
+}
+
+export async function getSharedBoards(email) {
+  const readAccess = 'r';
+  const writeAccess = 'w';
+
+  const collection = await DBClient.getBoardCollection();
+
+  const readableBoards = await collection
+    .find({
+      sharedTo: { email, accessType: readAccess },
+    })
+    .toArray();
+
+  const writableBoards = await collection
+    .find({
+      sharedTo: { email, accessType: writeAccess },
+    })
+    .toArray();
+
+  return { readableBoards, writableBoards };
 }

@@ -27,5 +27,5 @@ export async function getList(listId) {
 export async function getBoardLists(boardId) {
   const collection = await DBClient.getListCollection();
 
-  return await collection.findMany(boardId);
+  return await collection.find(boardId).toArray();
 }
