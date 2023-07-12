@@ -37,7 +37,8 @@ boardRouter.delete('/:boardId', async function (req, res) {
 });
 
 boardRouter.get('/fromuser/:user', async function (req, res) {
-  sendResponse(res, await getUserBoards(req.params.user));
+  res.send(await getUserBoards(req.params.user));
+  // sendResponse(res, await getUserBoards(req.params.user));
 });
 
 boardRouter.post('/share', async function (req, res) {
@@ -52,5 +53,6 @@ boardRouter.post('/share', async function (req, res) {
 });
 
 boardRouter.get('/share/:user', async function (req, res) {
-  sendResponse(res, await getSharedBoards(req.params.user));
+  res.send(await getSharedBoards(req.params.user));
+  // sendResponse(res, await getSharedBoards(req.params.user));
 });

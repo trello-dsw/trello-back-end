@@ -10,7 +10,8 @@ import { sendResponse } from '../handlers/utils.js';
 export const favoriteRouter = express.Router();
 
 favoriteRouter.get('/:user', async function (req, res) {
-  sendResponse(res, await getUserFavorites(req.params.user));
+  res.send(await getUserFavorites(req.params.user));
+  // sendResponse(res, await getUserFavorites(req.params.user))
 });
 
 favoriteRouter.post('/', async function (req, res) {
