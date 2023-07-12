@@ -2,12 +2,12 @@ import { DBClient } from './client.js';
 
 export async function createOrUpdateBoard(boardId, email, options) {
   const collection = await DBClient.getBoardCollection();
-  const { backgroundColor, textColor, title } = JSON.parse(options);
+  const { backgroundColor, lists, textColor, title } = JSON.parse(options);
 
   if (await collection.findOne({ boardId })) {
     await collection.updateOne(
       { boardId },
-      { $set: { backgroundColor, textColor, title } }
+      { $set: { backgroundColor, textColor, title, lists } }
     );
     return;
   }
@@ -15,6 +15,7 @@ export async function createOrUpdateBoard(boardId, email, options) {
   await collection.insertOne({
     boardId,
     email,
+    lists,
     backgroundColor,
     textColor,
     title,
