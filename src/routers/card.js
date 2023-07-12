@@ -36,7 +36,8 @@ cardRouter.delete('/:cardId', async function (req, res) {
 });
 
 cardRouter.get('/fromlist/:list', async function (req, res) {
-  sendResponse(res, await getListCards(req.params.list));
+  res.send(await getListCards(req.params.list));
+  // sendResponse(res, await getListCards(req.params.list));
 });
 
 cardRouter.post('/move', async function (req, res) {
